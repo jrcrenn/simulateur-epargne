@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+You can view the site here: [Simulateur d'épargne](https://simulateur-epargne.netlify.app/).
+
 ## Available Scripts
 
 In the project directory, you can run:
