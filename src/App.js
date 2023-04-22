@@ -1,140 +1,40 @@
-import React, { useState } from "react";
-import "./App.css";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import EpargneSimulator from './components/EpargneSimulator';
+import './App.css';
 
-const INITIAL_STATE = {
-  income: 0,
-  necessitiesPercentage: 50,
-  savingsPercentage: 20,
-  discretionaryPercentage: 30,
-  necessities: 0,
-  savings: 0,
-  discretionary: 0,
-  annualSavings: 0,
-};
-
-function EpargneSimulator() {
-  const [state, setState] = useState(INITIAL_STATE);
-
-  const resetValues = () => setState(INITIAL_STATE);
-
-  const calculateEpargne = () => {
-    const {
-      income,
-      necessitiesPercentage,
-      savingsPercentage,
-      discretionaryPercentage,
-    } = state;
-
-    const necessitiesAmount = income * (necessitiesPercentage / 100);
-    const savingsAmount = income * (savingsPercentage / 100);
-    const discretionaryAmount = income * (discretionaryPercentage / 100);
-
-    setState((prevState) => ({
-      ...prevState,
-      necessities: necessitiesAmount,
-      savings: savingsAmount,
-      discretionary: discretionaryAmount,
-      annualSavings: savingsAmount * 12,
-    }));
-  };
-
-  const handleInputChange = (event) => {
-    const { id, value } = event.target;
-    setState((prevState) => ({ ...prevState, [id]: parseInt(value) }));
-  };
-
-  const {
-    income,
-    necessitiesPercentage,
-    savingsPercentage,
-    discretionaryPercentage,
-    necessities,
-    savings,
-    discretionary,
-    annualSavings,
-  } = state;
-
-  const isCalculated = necessities !== 0 || savings !== 0 || discretionary !== 0 || annualSavings !== 0;
-
+function App() {
   return (
-    <div className="epargne-simulator">
-      <h1>Simulateur d'épargne personnalisé</h1>
-      <div className="input-container">
-        <label htmlFor="income-input">Revenu mensuel:</label>
-        <input
-          type="number"
-          id="income"
-          value={income}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="percentage-container">
-        <div className="percentage-input">
-          <label htmlFor="necessities-percentage-input">
-            Pourcentage des dépenses essentielles:
-          </label>
-          <input
-            type="number"
-            id="necessitiesPercentage"
-            value={necessitiesPercentage}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="percentage-input">
-          <label htmlFor="savings-percentage-input">
-            Pourcentage de l'épargne:
-          </label>
-          <input
-            type="number"
-            id="savingsPercentage"
-            value={savingsPercentage}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="percentage-input">
-          <label htmlFor="discretionary-percentage-input">
-            Pourcentage des dépenses discrétionnaires:
-          </label>
-          <input
-            type="number"
-            id="discretionaryPercentage"
-            value={discretionaryPercentage}
-            onChange={handleInputChange}
-          />
+    <Router>
+      <div>
+        <nav className="nav">
+          <ul className="nav__list">
+            <li className="nav__item">
+              <Link to="/" className="nav__link">Accueil</Link>
+            </li>
+            <li className="nav__item">
+              <Link to="/epargne-simulator" className="nav__link">Mon Simulateur d'épargne</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <div className="content">
+          <Routes>
+            <Route path="/epargne-simulator" element={<EpargneSimulator />} />
+            <Route path="/" element={
+              <div>
+                <h1 className="title">Bienvenue sur Mon Simulateur d'épargne</h1>
+                <p className="description">Mon Simulateur d'épargne est un outil en ligne gratuit qui vous permet de simuler votre épargne en fonction de votre situation financière actuelle et de vos objectifs financiers. Notre simulateur utilise des formules mathématiques pour calculer le montant que vous devez économiser chaque mois pour atteindre votre objectif d'épargne.</p>
+                <h2 className="subtitle">Comment ça marche ?</h2>
+                <p className="description">Pour utiliser Mon Simulateur d'épargne, vous devez fournir des informations sur votre revenu, vos dépenses et vos objectifs financiers. Le simulateur utilise ces informations pour calculer le montant que vous devez économiser chaque mois pour atteindre votre objectif. Vous pouvez également ajuster les paramètres pour voir comment les changements de votre situation financière peuvent affecter votre plan d'épargne.</p>
+                <h2 className="subtitle">Pourquoi utiliser Mon Simulateur d'épargne ?</h2>
+                <p className="description">Mon Simulateur d'épargne peut vous aider à planifier votre avenir financier en vous permettant de voir comment votre épargne peut croître au fil du temps. En utilisant notre simulateur, vous pouvez trouver le plan d'épargne qui convient le mieux à votre situation financière et à vos objectifs financiers. Nous sommes là pour vous aider à atteindre vos rêves financiers !</p>
+              </div>
+            } />
+          </Routes>
         </div>
       </div>
-      <div className="input-container">
-        <button onClick={calculateEpargne}>Calculer</button>
-        <button onClick={resetValues}>Réinitialiser</button>
-      </div>
-      {isCalculated && (
-        <>
-          <div className="allocations-container">
-            <h2>Allocation des dépenses:</h2>
-            <div className="allocation">
-              <p>Essentielles:</p>
-              <p>{necessities.toFixed(2)} €</p>
-            </div>
-            <div className="allocation">
-              <p>Épargne:</p>
-              <p>{savings.toFixed(2)} €</p>
-            </div>
-            <div className="allocation">
-              <p>Discrétionnaires:</p>
-              <p>{discretionary.toFixed(2)} €</p>
-            </div>
-          </div>
-          <div className="allocations-container">
-            <h2>Épargne annuelle:</h2>
-            <div className="allocation">
-              <p>Épargne:</p>
-              <p>{annualSavings.toFixed(2)} €</p>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
+    </Router>
   );
 }
 
-export default EpargneSimulator;
+export default App;
