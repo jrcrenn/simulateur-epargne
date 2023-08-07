@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import EpargneSimulator from './components/EpargneSimulator';
+import RGPD from './components/RGPD';
 import './App.css';
 
 function App() {
@@ -14,12 +15,15 @@ function App() {
             <li className="nav__item">
               <Link to="/epargne-simulator" className="nav__link">Mon Simulateur d'épargne</Link>
             </li>
+            <li className="nav__item">
+              <Link to="/rgpd" className="nav__link">Politique de confidentialité</Link>
+            </li>
           </ul>
         </nav>
-
         <div className="content">
           <Routes>
             <Route path="/epargne-simulator" element={<EpargneSimulator />} />
+            <Route path="/rgpd" element={<RGPD />} />
             <Route path="/" element={
               <div>
                 <h1 className="title">Bienvenue sur Mon Simulateur d'épargne</h1>
